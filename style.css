@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #dfdddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  position: relative;
+  width: 90vw;
+  max-width: 350px;
+  height: 70vh;
+  max-height: 500px;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  border-radius: 10px;
+  box-shadow: 10px 0 20px rgba(0,0,0,0.4),
+              inset 300px 0 50px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transform: perspective(2000px) rotateZ(0);
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+}
+
+.cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  transform-origin: left;
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+  z-index: 3;
+}
+
+.cover img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.cover img:nth-child(2) {
+  transform: rotateY(180deg);
+}
+
+/* Back of cover styling */
+.cover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  border-radius: 10px;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+
+/* First page (birthday message) */
+.first-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fff9e6, #f0f8ff);
+  border-radius: 10px;
+  transform-origin: left;
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+  z-index: 2;
+  backface-visibility: hidden;
+}
+
+.first-page .content {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(12px, 2vw, 16px);
+  text-align: center;
+  backface-visibility: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.first-page .content:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.first-page h1 {
+  font-size: clamp(18px, 5vw, 28px);
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.first-page p {
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+
+
+/* Second page (secret message) */
+.second-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+  z-index: 1;
+}
+
+.second-page .content {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(12px, 2vw, 16px);
+  text-align: center;
+}
+
+.second-page h1 {
+  font-size: clamp(18px, 5vw, 28px);
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.second-page p {
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* Animation states */
+.card.open {
+  transform: perspective(2000px) rotateZ(-1deg);
+  box-shadow: 10px 0 20px rgba(0,0,0,0.4),
+              inset 20px 0 50px rgba(0,0,0,0.4);
+}
+
+.card.open .cover {
+  transform: rotateY(-180deg);
+  box-shadow: 10px 0 20px rgba(0,0,0,0.4);
+}
+
+
+
+.card.show-first-page .first-page {
+  transform: rotateY(-180deg);
+  box-shadow: 10px 0 20px rgba(0,0,0,0.4);
+  z-index: 4; /* Higher than cover to stay on top when flipped */
+}
+
+/* Add back side of first page to cover the cover when flipped */
+.first-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f0f8ff, #fff9e6);
+  border-radius: 10px;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+
+/* Modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.modal-content input {
+  padding: 0.5rem;
+  width: 100%;
+  margin: 1rem 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.modal-content button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  background: #6c63ff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-content button:hover {
+  background: #5a52d5;
+}
+
+.modal-content button:last-child {
+  background: #ccc;
+  color: #333;
+}
+
+.modal-content button:last-child:hover {
+  background: #bbb;
+}
