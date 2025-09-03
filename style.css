@@ -67,11 +67,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f7eadf; /* Complementary warm tone behind image */
-  background-image: url('images/test.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain; /* Show full image on back cover */
+  background-color: #f7eadf; /* Complementary warm tone */
   border-radius: 10px;
   transform: rotateY(180deg);
   backface-visibility: hidden;
