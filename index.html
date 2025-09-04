@@ -24,9 +24,10 @@
             Good luck po with your master's journey. Sa'yo ko dyan. Happy birthday po ulit. More money to comeeee🥳
           </p>
         </div>
+        <div class="next-indicator" aria-hidden="true">→</div>
       </div>
       
-      <!-- Second page (secret message) -->
+      <!-- Second page (secret message) -- commented out per request
       <div class="second-page" id="secondPage">
         <div class="content">
           <h1>💌 Personal Message</h1>
@@ -39,9 +40,10 @@
           </p>
         </div>
       </div>
+      -->
     </div>
 
-    <!-- Modal for password -->
+    <!-- Modal for password -- commented out per request
     <div class="modal" id="modal">
       <div class="modal-content">
         <h2>🔐 Enter Password</h2>
@@ -59,6 +61,7 @@
         <button id="closeModal">Cancel</button>
       </div>
     </div>
+    -->
 
     <script>
       const card = document.getElementById("card");
@@ -88,8 +91,10 @@
             card.classList.remove("open");
             currentPage = 'cover';
           } else {
-            // Show password modal when clicking on page area
-            modal.style.display = "flex";
+            // If modal exists, show it; otherwise do nothing
+            if (modal) {
+              modal.style.display = "flex";
+            }
           }
         } else if (currentPage === 'second') {
           // Turn back to first page when clicking on left side
@@ -101,40 +106,16 @@
       });
 
       // Close modal
-      closeModal.addEventListener("click", () => {
-        modal.style.display = "none";
-        passwordInput.value = "";
-      });
+      if (closeModal && modal && passwordInput) {
+        closeModal.addEventListener("click", () => {
+          modal.style.display = "none";
+          passwordInput.value = "";
+        });
+      }
 
       // Check password and show secret page
-      submitPassword.addEventListener("click", () => {
-        if (passwordInput.value === "multo" || passwordInput.value === "ghost") {
-          modal.style.display = "none";
-          card.classList.add("show-first-page");
-          currentPage = 'second';
-        } else {
-          alert("Wrong password! Try again.");
-        }
-        passwordInput.value = "";
-      });
-
-      // Prevent typing symbols, numbers, and spaces, convert uppercase to lowercase
-      passwordInput.addEventListener("input", (e) => {
-        let value = e.target.value;
-        
-        // Remove any symbols, numbers, and spaces
-        value = value.replace(/[^a-zA-Z]/g, '');
-        
-        // Convert to lowercase
-        value = value.toLowerCase();
-        
-        // Update the input value
-        e.target.value = value;
-      });
-
-      // Also handle Enter key
-      passwordInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
+      if (submitPassword && passwordInput && modal) {
+        submitPassword.addEventListener("click", () => {
           if (passwordInput.value === "multo" || passwordInput.value === "ghost") {
             modal.style.display = "none";
             card.classList.add("show-first-page");
@@ -143,8 +124,40 @@
             alert("Wrong password! Try again.");
           }
           passwordInput.value = "";
-        }
-      });
+        });
+      }
+
+      // Prevent typing symbols, numbers, and spaces, convert uppercase to lowercase
+      if (passwordInput) {
+        passwordInput.addEventListener("input", (e) => {
+          let value = e.target.value;
+          
+          // Remove any symbols, numbers, and spaces
+          value = value.replace(/[^a-zA-Z]/g, '');
+          
+          // Convert to lowercase
+          value = value.toLowerCase();
+          
+          // Update the input value
+          e.target.value = value;
+        });
+      }
+
+      // Also handle Enter key
+      if (passwordInput && modal) {
+        passwordInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            if (passwordInput.value === "multo" || passwordInput.value === "ghost") {
+              modal.style.display = "none";
+              card.classList.add("show-first-page");
+              currentPage = 'second';
+            } else {
+              alert("Wrong password! Try again.");
+            }
+            passwordInput.value = "";
+          }
+        });
+      }
 
       // Back button to return to first page
       // backBtn.addEventListener("click", (e) => {
@@ -161,11 +174,13 @@
       // });
 
       // Close modal when clicking outside
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          closeModal.click();
-        }
-      });
+      if (modal && closeModal) {
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            closeModal.click();
+          }
+        });
+      }
     </script>
   </body>
 </html>

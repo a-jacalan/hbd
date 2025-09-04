@@ -121,6 +121,45 @@ body {
   color: #555;
 }
 
+/* Next page indicator (only on first page) */
+.next-indicator {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 22px;
+  color: #6c63ff;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(108, 99, 255, 0.25);
+  border: 2px solid rgba(108, 99, 255, 0.35);
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* Subtle nudge animation */
+@keyframes nudgeRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 4px 14px rgba(108, 99, 255, 0.25); }
+  50% { box-shadow: 0 6px 22px rgba(108, 99, 255, 0.45); }
+}
+
+/* Show when card is open on first page only */
+.card.open:not(.show-first-page) .next-indicator {
+  opacity: 1;
+  animation: nudgeRight 1.6s ease-in-out infinite, pulseGlow 2s ease-in-out infinite;
+}
+
 
 
 /* Second page (secret message) */
