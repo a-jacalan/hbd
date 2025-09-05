@@ -30,52 +30,14 @@
         <div class="next-indicator" aria-hidden="true">→</div>
       </div>
       
-      <!-- Second page (secret message) -- commented out per request
-      <div class="second-page" id="secondPage">
-        <div class="content">
-          <h1>💌 Personal Message</h1>
-          <p>
-            Hi, Thank you for letting me be a friend again, hopefully.
-            I know you've had enough of this, but one last time, 
-            I'm really sorry for all the traumas I gave. I realize how much I hurt you and how immature I was.
-            Just know that no matter what happens, you’ll always hold a special place in my heart.
-            'Til next time, my favorite person. See you on the other side.
-          </p>
-        </div>
-      </div>
-      -->
     </div>
 
-    <!-- Modal for password -- commented out per request
-    <div class="modal" id="modal">
-      <div class="modal-content">
-        <h2>🔐 Enter Password</h2>
-        <p style="margin-bottom: 1rem; color: #666; font-style: italic;">
-          This is more of an apology message, again.
-        </p>
-        <p style="margin-bottom: 1rem; color: #666; font-style: italic;">
-          Please don’t get the wrong idea, only read it if you want to.
-        </p>
-        <input type="password" id="passwordInput" placeholder="Enter secret code..." />
-        <p style="margin: 0.5rem 0; font-size: 14px; color: #888;">
-          Hint: 👻
-        </p>
-        <button id="submitPassword">Unlock</button>
-        <button id="closeModal">Cancel</button>
-      </div>
-    </div>
-    -->
 
     <script>
       const card = document.getElementById("card");
-      const modal = document.getElementById("modal");
-      const closeModal = document.getElementById("closeModal");
-      const submitPassword = document.getElementById("submitPassword");
-      const passwordInput = document.getElementById("passwordInput");
-      const secondPage = document.getElementById("secondPage");
       const firstPage = document.getElementById("firstPage");
 
-      let currentPage = 'cover'; // track current page: 'cover', 'first', 'second'
+      let currentPage = 'cover'; // track current page: 'cover', 'first'
 
       // Main card click handler
       card.addEventListener("click", (e) => {
@@ -89,101 +51,14 @@
           card.classList.add("open");
           currentPage = 'first';
         } else if (currentPage === 'first') {
-          // Check if clicking on cover area to close book first
+          // Check if clicking on cover area to close book
           if (clickX < leftSideThreshold) {
             card.classList.remove("open");
             currentPage = 'cover';
-          } else {
-            // If modal exists, show it; otherwise do nothing
-            if (modal) {
-              modal.style.display = "flex";
-            }
           }
-        } else if (currentPage === 'second') {
-          // Turn back to first page when clicking on left side
-          if (clickX < leftSideThreshold) {
-            card.classList.remove("show-first-page");
-            currentPage = 'first';
-          }
+          // No action for right side click since modal and second page are removed
         }
       });
-
-      // Close modal
-      if (closeModal && modal && passwordInput) {
-        closeModal.addEventListener("click", () => {
-          modal.style.display = "none";
-          passwordInput.value = "";
-        });
-      }
-
-      // Check password and show secret page
-      if (submitPassword && passwordInput && modal) {
-        submitPassword.addEventListener("click", () => {
-          if (passwordInput.value === "multo" || passwordInput.value === "ghost") {
-            modal.style.display = "none";
-            card.classList.add("show-first-page");
-            currentPage = 'second';
-          } else {
-            alert("Wrong password! Try again.");
-          }
-          passwordInput.value = "";
-        });
-      }
-
-      // Prevent typing symbols, numbers, and spaces, convert uppercase to lowercase
-      if (passwordInput) {
-        passwordInput.addEventListener("input", (e) => {
-          let value = e.target.value;
-          
-          // Remove any symbols, numbers, and spaces
-          value = value.replace(/[^a-zA-Z]/g, '');
-          
-          // Convert to lowercase
-          value = value.toLowerCase();
-          
-          // Update the input value
-          e.target.value = value;
-        });
-      }
-
-      // Also handle Enter key
-      if (passwordInput && modal) {
-        passwordInput.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") {
-            if (passwordInput.value === "multo" || passwordInput.value === "ghost") {
-              modal.style.display = "none";
-              card.classList.add("show-first-page");
-              currentPage = 'second';
-            } else {
-              alert("Wrong password! Try again.");
-            }
-            passwordInput.value = "";
-          }
-        });
-      }
-
-      // Back button to return to first page
-      // backBtn.addEventListener("click", (e) => {
-      //   e.stopPropagation();
-      //   card.classList.remove("show-first-page");
-      //   currentPage = 'first';
-      // });
-
-      // Allow Enter key to submit password
-      // passwordInput.addEventListener("keypress", (e) => {
-      //   if (e.key === "Enter") {
-      //     submitPassword.click();
-      //   }
-      // });
-
-      // Close modal when clicking outside
-      if (modal && closeModal) {
-        modal.addEventListener("click", (e) => {
-          if (e.target === modal) {
-            closeModal.click();
-          }
-        });
-      }
     </script>
   </body>
 </html>
